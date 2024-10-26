@@ -22,8 +22,8 @@ server {
     set $upstream ${BACKEND_PORT80};
     set $always_redirect ${NGINX_ALWAYS_TLS_REDIRECT};
 
-    ssl_certificate ${PROXY_SSL_CERT};
-    ssl_certificate_key ${PROXY_SSL_CERT_KEY};
+    ssl_certificate ${SSL_CERT};
+    ssl_certificate_key ${SSL_CERT_KEY};
     ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
     ssl_prefer_server_ciphers on;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -99,8 +99,8 @@ server {
     server_name ${SERVER_NAME};
     set $upstream ${BACKEND_PORT443};
 
-    ssl_certificate ${PROXY_SSL_CERT};
-    ssl_certificate_key ${PROXY_SSL_CERT_KEY};
+    ssl_certificate ${SSL_CERT};
+    ssl_certificate_key ${SSL_CERT_KEY};
     ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
     ssl_prefer_server_ciphers on;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;

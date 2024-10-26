@@ -1,7 +1,8 @@
-FROM owasp/modsecurity-crs:nginx-alpine
+FROM owasp/modsecurity-crs:3.3-nginx-alpine-202402140602
 
+USER root
 RUN apk update
-RUN apk add -U --no-cache git php8-fpm py3-pip supervisor --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/ &&\
+RUN apk add -U --no-cache git php82-fpm py3-pip supervisor --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/ &&\
   pip install 'git+https://github.com/coderanger/supervisor-stdout.git'
 
 COPY etc/ /etc/

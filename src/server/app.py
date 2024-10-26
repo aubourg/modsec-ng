@@ -1,6 +1,8 @@
 import os
 import sys
-from flask import Flask, request
+from flask import Flask, request, send_file
+import shutil
+import tarfile
 
 app = Flask(__name__)
 from logging.config import dictConfig
@@ -63,6 +65,15 @@ def report_handler():
     app.logger.info('Invalid report for ' + hostname + " Data: " + str(request.stream.read()))
 
     return "OK"
+
+@app.route('/get_all_rules')
+def get_all():
+    rule_path = '/rules'
+    tar_path = os.path.join(os.getcwd(), 'rules.tar')
+    with tarfile.open(tar_path, "w") as tar:
+        tar.add(rule_path, arcname=os.path.basename(rule_path))
+
+    return send_file(tar_path, as_attachment=True)
 
 if __name__ == "__main__":
     app.run() 
