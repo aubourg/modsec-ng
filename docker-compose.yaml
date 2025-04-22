@@ -8,14 +8,14 @@ services:
     networks:
       internal: {}
 
-  ipv6:
-    image: ls24.wayren.ee:5000/ipv6nat
-    restart: unless-stopped
-    network_mode: "host"
-    privileged: true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /lib/modules:/lib/modules:ro
+  # ipv6:
+  #   image: ls24.wayren.ee:5000/ipv6nat
+  #   restart: unless-stopped
+  #   network_mode: "host"
+  #   privileged: true
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - /lib/modules:/lib/modules:ro
 
   modsec:
     build: ./src
@@ -24,15 +24,16 @@ services:
       - "443:8443"
     networks:
       - internal
-      - proxy
     environment:
       #### COMMON ENV VARS
       - HOSTNAME=localhost
       - CRS_RULES_SYNC=true
-      - CRS_RULES_SERVER=http://ls24.wayren.ee:8080
-      - BACKEND_PORT443=http://web:8080
-      - BACKEND_PORT80=http://web:8080
+      - CRS_RULES_SERVER=http://192.168.10.165:5000
+      - BACKEND_PORT443=https://192.168.10.165:8443
+      - BACKEND_PORT80=http://192.168.10.165:8080
       - DNS_SERVER=127.0.0.11
+      - NGINX_ALWAYS_TLS_REDIRECT=off
+      - CAPTCHA_ON=1
       # - DNS_SERVER=192.168.3.1
       # - ERRORLOG=/var/log/nginx/error.log # default
       # - LOGLEVEL=warn #default
@@ -59,7 +60,9 @@ services:
       # - MODSEC_RULE_ENGINE=on # default
       # - SSL_CERT=/keys/cert.pem
       # - SSL_CERT_KEY=/keys/privkey.pem 
-      # volumes:
+    volumes:
+        - ./src/html/:/usr/share/nginx/html/
+        # - ./src/etc/nginx:/etc/nginx/
       # - ./rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf:/opt/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
       # - ./rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf:/opt/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
       #   - ./x.org/cert.pem:/keys/cert.pem
@@ -73,5 +76,5 @@ networks:
       driver: default
       config:
         - subnet: fd00:dead:beef::/48
-  proxy:
-    external: true
+  # proxy:
+  #   external: true
