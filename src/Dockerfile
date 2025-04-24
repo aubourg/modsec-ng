@@ -17,13 +17,13 @@ COPY server/rules/default/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf /opt/owasp
 
 RUN chmod 600 /etc/nginx/conf/*
 
-ENV OVERRIDE_UPSTREAM_CSP="true"
-ENV MODSEC_AUDIT_ENGINE='on'
-ENV MODSEC_AUDIT_LOG_PARTS='ABCIJDEFHZ'
+# ENV OVERRIDE_UPSTREAM_CSP="true"
+# ENV MODSEC_AUDIT_ENGINE='on'
+# ENV MODSEC_AUDIT_LOG_PARTS='ABCIJDEFHZ'
 
-ENV SYSLOG_HOST="logs.example.com"
-ENV SYSLOG_PORT="514"
-ENV SYSLOG_PROTO="@@"
+# ENV SYSLOG_HOST="logs.example.com"
+# ENV SYSLOG_PORT="514"
+# ENV SYSLOG_PROTO="@@"
 
 
 RUN cp /etc/nginx/templates/conf.d/modsecurity.conf.template /etc/nginx/conf.d/modsecurity.conf

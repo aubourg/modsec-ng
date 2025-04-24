@@ -84,6 +84,8 @@ The CRS file are in `rules` directory and mounted in the container at `/opt/owas
 
 ## Environment variables
 
+All the env variables are configurable in the .env file for modsecurity.
+
 ### Modsecurity, Core Rules set (CRS) and NGINX
 You can set all the environment variables from the [official image](https://github.com/coreruleset/modsecurity-crs-docker)
 
