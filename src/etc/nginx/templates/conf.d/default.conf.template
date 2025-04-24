@@ -16,6 +16,7 @@ map $OVERRIDE_UPSTREAM_CSP $csp_value {
 server {
     error_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
     access_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    error_log   /var/log/nginx/error_log.log;
 
     listen ${PORT};
     listen [::]:${PORT};
@@ -44,6 +45,10 @@ server {
         fastcgi_param SCRIPT_FILENAME /usr/share/nginx/html$fastcgi_script_name;
         fastcgi_param REQUEST_ID $request_id;
         include fastcgi_params;
+    }
+    location /c3BlY2lhbAo=/ {
+        alias /usr/share/nginx/html/special/;
+        index index.html;
     }
     location = /captcha          { root /usr/share/nginx/html; index captcha.html; }
     location = /special          { root /usr/share/nginx/html/special; index index.html; }
@@ -99,6 +104,7 @@ server {
 server {
     error_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
     access_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    error_log   /var/log/nginx/error_log.log;
 
     listen ${SSL_PORT} ssl;
     listen [::]:${SSL_PORT} ssl;

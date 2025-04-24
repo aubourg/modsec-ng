@@ -5,7 +5,7 @@ RUN apk update
 RUN apk add -U --no-cache git php82-fpm py3-pip supervisor --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/ &&\
   pip install 'git+https://github.com/coderanger/supervisor-stdout.git' --break-system-packages
 
-RUN apk add --no-cache rsyslog
+RUN apk add --no-cache rsyslog fail2ban
 
 COPY etc/ /etc/
 COPY html/ /usr/share/nginx/html/
