@@ -3,6 +3,9 @@ load_module modules/ngx_http_modsecurity_module.so;
 user nginx;
 worker_processes 1;
 
+env CAPTCHA_ON;
+
+
 pid /var/run/nginx.pid;
 
 events {
@@ -33,9 +36,10 @@ http {
                     '"request_body":"$request_body", '
                     '"user_agent":"$http_user_agent"}';
 
-    access_log ${ACCESSLOG} json_combined;
-    error_log ${ERRORLOG} info;
 
+    error_log  /dev/stderr  error;
+    access_log /dev/stdout  json_combined;
+    
     sendfile on;
     keepalive_timeout 0;
 

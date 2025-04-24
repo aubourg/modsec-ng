@@ -53,5 +53,12 @@ if [ "$CRS_RULES_SYNC" = true ]; then
     /sync-crs-rules.sh "${HOSTNAME}" "${CRS_RULES_SERVER}" 1
 fi
 
+# Generate syslog conf 
+envsubst '${SYSLOG_HOST} ${SYSLOG_PORT} ${SYSLOG_PROTO}' \
+  < /etc/rsyslog.d/30-forward.conf.tpl \
+  > /etc/rsyslog.d/30-forward.conf
+
+
+
 # Start supervisord
 supervisord -c /etc/supervisord.conf

@@ -109,3 +109,11 @@ Copy to `etc/supervisor.d/start_<service>.conf` to allow supervisor to load the 
 **References:**
 
 * [modsecurity-crs-docker](https://github.com/coreruleset/modsecurity-crs-docker)
+
+# Rsyslog
+
+To enable rsyslog please configure `SYSLOG_HOST` and `SYSLOG_PORT` `docker-compose.yaml`. Then you can debug if your server is receiving with :
+
+```
+sudo socat -u UDP-RECVFROM:514,reuseaddr,fork SYSTEM:'cat;echo'
+```

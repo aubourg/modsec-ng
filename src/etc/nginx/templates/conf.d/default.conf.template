@@ -14,6 +14,9 @@ map $OVERRIDE_UPSTREAM_CSP $csp_value {
 }
 
 server {
+    error_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    access_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+
     listen ${PORT};
     listen [::]:${PORT};
 
@@ -41,7 +44,8 @@ server {
         fastcgi_param REQUEST_ID $request_id;
         include fastcgi_params;
     }
-
+    location = /captcha          { root /usr/share/nginx/html; index captcha.html; }
+    location = /captcha.html     { root /usr/share/nginx/html; }
     location / {
         client_max_body_size 0;
 
@@ -91,6 +95,8 @@ server {
 
 
 server {
+    error_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    access_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
 
     listen ${SSL_PORT} ssl;
     listen [::]:${SSL_PORT} ssl;
@@ -118,7 +124,8 @@ server {
         fastcgi_param REQUEST_ID $request_id;
         include fastcgi_params;
     }
-
+    location = /captcha          { root /usr/share/nginx/html; index captcha.html; }
+    location = /captcha.html     { root /usr/share/nginx/html; }
     location / {
         client_max_body_size 0;
 
@@ -160,5 +167,4 @@ server {
         proxy_store off;
         stub_status;
     }
-
 }

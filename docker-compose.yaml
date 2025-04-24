@@ -60,6 +60,8 @@ services:
       # - MODSEC_RULE_ENGINE=on # default
       # - SSL_CERT=/keys/cert.pem
       # - SSL_CERT_KEY=/keys/privkey.pem 
+      - SYSLOG_HOST=myremotehost.com
+      - SYSLOG_PORT=514
     volumes:
         - ./src/html/:/usr/share/nginx/html/
         # - ./src/etc/nginx:/etc/nginx/

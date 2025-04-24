@@ -1,0 +1,90 @@
+2025-04-24 07:06:53,274 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-04-24 07:06:53,275 INFO Included extra file "/etc/supervisor.d/start_crond.conf" during parsing
+2025-04-24 07:06:53,275 INFO Included extra file "/etc/supervisor.d/start_nginx.conf" during parsing
+2025-04-24 07:06:53,275 INFO Included extra file "/etc/supervisor.d/start_php-fpm.conf" during parsing
+2025-04-24 07:06:53,275 INFO Included extra file "/etc/supervisor.d/start_rsyslog.conf" during parsing
+2025-04-24 07:06:53,277 INFO RPC interface 'supervisor' initialized
+2025-04-24 07:06:53,277 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-04-24 07:06:53,277 INFO supervisord started with pid 595
+2025-04-24 07:06:54,281 INFO spawned: 'stdout' with pid 596
+2025-04-24 07:06:54,284 INFO spawned: 'crond' with pid 597
+2025-04-24 07:06:54,286 INFO spawned: 'nginx' with pid 598
+2025-04-24 07:06:54,287 INFO spawned: 'php-fpm' with pid 599
+2025-04-24 07:06:54,287 INFO spawned: 'rsyslog' with pid 600
+2025-04-24 07:06:55,431 INFO success: stdout entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:06:55,431 INFO success: crond entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:06:55,431 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:06:55,431 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:06:55,431 INFO success: rsyslog entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:07:32,326 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-04-24 07:07:32,326 INFO Included extra file "/etc/supervisor.d/start_crond.conf" during parsing
+2025-04-24 07:07:32,326 INFO Included extra file "/etc/supervisor.d/start_nginx.conf" during parsing
+2025-04-24 07:07:32,326 INFO Included extra file "/etc/supervisor.d/start_php-fpm.conf" during parsing
+2025-04-24 07:07:32,326 INFO Included extra file "/etc/supervisor.d/start_rsyslog.conf" during parsing
+2025-04-24 07:07:32,329 INFO RPC interface 'supervisor' initialized
+2025-04-24 07:07:32,329 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-04-24 07:07:32,329 INFO supervisord started with pid 595
+2025-04-24 07:07:33,332 INFO spawned: 'stdout' with pid 596
+2025-04-24 07:07:33,335 INFO spawned: 'crond' with pid 597
+2025-04-24 07:07:33,337 INFO spawned: 'nginx' with pid 598
+2025-04-24 07:07:33,339 INFO spawned: 'php-fpm' with pid 599
+2025-04-24 07:07:33,341 INFO spawned: 'rsyslog' with pid 600
+2025-04-24 07:07:34,481 INFO success: stdout entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:07:34,481 INFO success: crond entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:07:34,481 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:07:34,481 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:07:34,481 INFO success: rsyslog entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:10:38,160 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-04-24 07:10:38,160 INFO Included extra file "/etc/supervisor.d/start_crond.conf" during parsing
+2025-04-24 07:10:38,160 INFO Included extra file "/etc/supervisor.d/start_nginx.conf" during parsing
+2025-04-24 07:10:38,160 INFO Included extra file "/etc/supervisor.d/start_php-fpm.conf" during parsing
+2025-04-24 07:10:38,160 INFO Included extra file "/etc/supervisor.d/start_rsyslog.conf" during parsing
+2025-04-24 07:10:38,162 INFO RPC interface 'supervisor' initialized
+2025-04-24 07:10:38,162 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-04-24 07:10:38,162 INFO supervisord started with pid 595
+2025-04-24 07:10:39,166 INFO spawned: 'stdout' with pid 596
+2025-04-24 07:10:39,169 INFO spawned: 'crond' with pid 597
+2025-04-24 07:10:39,171 INFO spawned: 'nginx' with pid 598
+2025-04-24 07:10:39,172 INFO spawned: 'php-fpm' with pid 599
+2025-04-24 07:10:39,172 INFO spawned: 'rsyslog' with pid 600
+2025-04-24 07:10:40,311 INFO success: stdout entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:10:40,311 INFO success: crond entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:10:40,311 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:10:40,311 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:10:40,311 INFO success: rsyslog entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:12:00,551 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-04-24 07:12:00,551 INFO Included extra file "/etc/supervisor.d/start_crond.conf" during parsing
+2025-04-24 07:12:00,551 INFO Included extra file "/etc/supervisor.d/start_nginx.conf" during parsing
+2025-04-24 07:12:00,551 INFO Included extra file "/etc/supervisor.d/start_php-fpm.conf" during parsing
+2025-04-24 07:12:00,551 INFO Included extra file "/etc/supervisor.d/start_rsyslog.conf" during parsing
+2025-04-24 07:12:00,554 INFO RPC interface 'supervisor' initialized
+2025-04-24 07:12:00,554 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-04-24 07:12:00,554 INFO supervisord started with pid 595
+2025-04-24 07:12:01,558 INFO spawned: 'stdout' with pid 596
+2025-04-24 07:12:01,561 INFO spawned: 'crond' with pid 597
+2025-04-24 07:12:01,562 INFO spawned: 'nginx' with pid 598
+2025-04-24 07:12:01,563 INFO spawned: 'php-fpm' with pid 599
+2025-04-24 07:12:01,564 INFO spawned: 'rsyslog' with pid 600
+2025-04-24 07:12:02,701 INFO success: stdout entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:12:02,702 INFO success: crond entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:12:02,702 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:12:02,702 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:12:02,702 INFO success: rsyslog entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:23:50,488 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-04-24 07:23:50,488 INFO Included extra file "/etc/supervisor.d/start_crond.conf" during parsing
+2025-04-24 07:23:50,488 INFO Included extra file "/etc/supervisor.d/start_nginx.conf" during parsing
+2025-04-24 07:23:50,488 INFO Included extra file "/etc/supervisor.d/start_php-fpm.conf" during parsing
+2025-04-24 07:23:50,488 INFO Included extra file "/etc/supervisor.d/start_rsyslog.conf" during parsing
+2025-04-24 07:23:50,490 INFO RPC interface 'supervisor' initialized
+2025-04-24 07:23:50,490 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-04-24 07:23:50,490 INFO supervisord started with pid 595
+2025-04-24 07:23:51,494 INFO spawned: 'stdout' with pid 596
+2025-04-24 07:23:51,497 INFO spawned: 'crond' with pid 597
+2025-04-24 07:23:51,499 INFO spawned: 'nginx' with pid 598
+2025-04-24 07:23:51,500 INFO spawned: 'php-fpm' with pid 599
+2025-04-24 07:23:51,501 INFO spawned: 'rsyslog' with pid 600
+2025-04-24 07:23:52,637 INFO success: stdout entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:23:52,637 INFO success: crond entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:23:52,638 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:23:52,638 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-24 07:23:52,638 INFO success: rsyslog entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
