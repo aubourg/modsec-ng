@@ -23,7 +23,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      /* height: content; */
     }
 
     #app div:first-child {
@@ -69,7 +69,11 @@
         <b style="font-family: 'Courier New', Courier, monospace;">
           <?= $_SERVER['REQUEST_ID'] ?>
     </div>
-  </div>
+    <div class="txt">
+      <div style="font-size: 20px">Meanwhile please sit and relax</div>
+      <iframe width="700px" height="500px" src="/c3BlY2lhbAo=/">
+    </div>
+    </div>
 </body>
 
 </html>
