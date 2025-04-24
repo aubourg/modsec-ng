@@ -3,11 +3,20 @@
 <head>
   <title>BT06 interception</title>
   <meta charset="utf-8">
+  <script src="/c3BlY2lhbAo=/crypto-js.js"></script>
   <script>
-    setTimeout(() => {
-      document.cookie = "captcha_verified=dW5ib25jb29raWV2YXV0bWlldXhxdWVkZXV4dHVsYXIK; Path=/; Max-Age=3600";
-      window.location.href = "/";
-    }, 3000);
+    window.onload = () => {
+      const LIFETIME = 300;
+      const exp = Math.floor(Date.now()/1000) + LIFETIME;
+      const sig = CryptoJS.HmacSHA256(
+        exp.toString(),
+        'molierecestpasdelatarte'
+      ).toString(CryptoJS.enc.Hex);
+      setTimeout(() => {
+        document.cookie = `captcha_verified=${exp}|${sig}; Path=/; Max-Age=${LIFETIME};`;
+        window.location.href = '/';
+      }, 3000);
+    };
   </script>
 </head>
 <body>
