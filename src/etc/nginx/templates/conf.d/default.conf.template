@@ -35,6 +35,7 @@ server {
     ignore_invalid_headers off;
 
     error_page 403 =418 /403_error.php;
+    error_page 418 =302 /captcha.html;
     error_page 500 502 503 504 /403_error.php;
 
     location /403_error.php {
@@ -116,6 +117,7 @@ server {
     ignore_invalid_headers off;
 
     error_page 403 =418 /403_error.php;
+    error_page 418 =302 /captcha.html;
     error_page 500 502 503 504 /403_error.php;
 
     location /403_error.php {
