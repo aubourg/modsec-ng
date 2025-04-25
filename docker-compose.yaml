@@ -19,6 +19,8 @@ services:
       - internal
     volumes:
       - ./src/html/:/usr/share/nginx/html/
+    cap_add:
+      - NET_ADMIN
 
 networks:
   internal:
