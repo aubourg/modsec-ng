@@ -14,6 +14,10 @@ map $OVERRIDE_UPSTREAM_CSP $csp_value {
 }
 
 server {
+    error_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    access_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    error_log   /var/log/nginx/error_log.log;
+
     listen ${PORT};
     listen [::]:${PORT};
 
@@ -32,6 +36,7 @@ server {
     ignore_invalid_headers off;
 
     error_page 403 =418 /403_error.php;
+    error_page 418 =302 /captcha.html;
     error_page 500 502 503 504 /403_error.php;
 
     location /403_error.php {
@@ -41,7 +46,13 @@ server {
         fastcgi_param REQUEST_ID $request_id;
         include fastcgi_params;
     }
-
+    location /c3BlY2lhbAo=/ {
+        alias /usr/share/nginx/html/special/;
+        index index.html;
+    }
+    location = /captcha          { root /usr/share/nginx/html; index captcha.html; }
+    location = /special          { root /usr/share/nginx/html/special; index index.html; }
+    location = /captcha.html     { root /usr/share/nginx/html; }
     location / {
         client_max_body_size 0;
 
@@ -91,6 +102,9 @@ server {
 
 
 server {
+    error_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    access_log syslog:server=${SYSLOG_HOST}:${SYSLOG_PORT};
+    error_log   /var/log/nginx/error_log.log;
 
     listen ${SSL_PORT} ssl;
     listen [::]:${SSL_PORT} ssl;
@@ -109,6 +123,7 @@ server {
     ignore_invalid_headers off;
 
     error_page 403 =418 /403_error.php;
+    error_page 418 =302 /captcha.html;
     error_page 500 502 503 504 /403_error.php;
 
     location /403_error.php {
@@ -118,7 +133,11 @@ server {
         fastcgi_param REQUEST_ID $request_id;
         include fastcgi_params;
     }
-
+    location /c3BlY2lhbAo=/ {
+        alias /usr/share/nginx/html/special/;
+        index index.html;
+    }
+    location = /captcha.html     { root /usr/share/nginx/html; }
     location / {
         client_max_body_size 0;
 
@@ -160,5 +179,4 @@ server {
         proxy_store off;
         stub_status;
     }
-
 }

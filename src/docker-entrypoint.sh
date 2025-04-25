@@ -53,5 +53,17 @@ if [ "$CRS_RULES_SYNC" = true ]; then
     /sync-crs-rules.sh "${HOSTNAME}" "${CRS_RULES_SERVER}" 1
 fi
 
+# Generate syslog conf 
+envsubst '${SYSLOG_HOST} ${SYSLOG_PORT} ${SYSLOG_PROTO}' \
+  < /etc/rsyslog.d/30-forward.conf.tpl \
+  > /etc/rsyslog.d/30-forward.conf
+
+envsubst '${FAIL2BAN_BANTIME} ${FAIL2BAN_MAXRETRY} ${FAIL2BAN_FINDTIME}' \
+  < /etc/fail2ban/jail.local.template \
+  > /etc/fail2ban/jail.local
+
+
+
+
 # Start supervisord
 supervisord -c /etc/supervisord.conf

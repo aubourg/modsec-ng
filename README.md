@@ -1,111 +1,168 @@
-# ModSecurity Proxy for BT
+# 🛡️ BT – ModSecurity Reverse-Proxy
 
-## Content Table
-   * [Summary](#summary)
-  * [Files and folders](#files-and-folders)
-  * [CRS Rules Sync](#crs-rules-sync)
-  * [Environment variables](#environment-variables)
-    + [Modsecurity, Core Rules set (CRS) and NGINX](#modsecurity--core-rules-set--crs--and-nginx)
-  * [Supervisor](#supervisor)
-    + [Add new service to supervisor](#add-new-service-to-supervisor)
+Turn any HTTP / HTTPS service into a hardened, self-updating fortress.  
+**Nginx + ModSecurity v3 + OWASP CRS + Fail2ban + rsyslog + Python rule-server** – everything wrapped in a single Docker-Compose stack.  
+Copy → run → profit.
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+---
 
-## Summary 
+## ✨ Why you might want this
 
-This is a docker image to run a WAF as proxy based on ModSecurity and Core Rules set (CRS) official image.
+* **Instant WAF** – blocks the OWASP Top 10 out-of-the-box.  
+* **Central rule server** – edit once, every proxy reloads itself.  
+* **Ban list** – Fail2ban blocking IP.  
 
-## Files and folders
+---
 
-Using the official OWASP image for ModSecurity-CRS as a base image.
-The default entrypoint has been changed to supervisord. It's configured to start nginx and php-fpm, initially.
-Check the [Supervisord](#supervisord) section for more information.
+## 🚀 Quick start
 
-**`src` directory structure:**
+```bash
+git clone https://github.com/yourOrg/bt-modsec-proxy.git
+cd bt-modsec-proxy
+cp .env.sample .env        # tweak to your environment
+docker compose up --build  # add -d to detach
+```
+
+Browse **http://<host>** – you’re now protected by ModSecurity.
+
+* `docker-compose.yaml` is the production template (80/443, full logging).
+
+---
+
+## 🗂️ Repository layout
 
 ```
-├── Dockerfile
-├── docker-entrypoint.sh
-├── etc
-│   ├── modsecurity.d
-│   │   └── modsecurity-override.conf
-│   ├── nginx
-│   │   └── templates
-│   │       ├── conf.d
-│   │       │   └── default.conf.template
-│   │       └── nginx.conf.template
-│   ├── supervisor.d
-│   │   ├── start_crond.conf
-│   │   ├── start_nginx.conf
-│   │   └── start_php-fpm.conf
-│   └── supervisord.conf
-├── html
-│   └── 403_error.php
-├── server
-│   ├── Dockerfile
-│   ├── app.py
-│   ├── docker-compose.yml
-│   ├── requirements.txt
-│   └── rules
-│       ├── default
-│       │   ├── REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
-│       │   └── RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
-│       └── template
-│           ├── REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
-│           └── RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
-└── sync-crs-rules.sh
+.
+├── docker-compose.yaml            # production stack
+├── docker-compose-example.yaml    # quick demo
+└── src/                           # proxy image context
+```
+
+<details>
+<summary>Click to expand <code>src/</code> highlights</summary>
+
+| Path | Purpose |
+|------|---------|
+| `Dockerfile`, `docker-entrypoint.sh` | Build & start the proxy image |
+| `etc/` | Nginx, ModSecurity, Fail2ban, rsyslog & Supervisor configs |
+| `html/` | Custom 403, CAPTCHA page, “special” demo content |
+| `sync-crs-rules.sh` | Cron script that syncs rules **and** the ban-list, then reloads Nginx |
+| `server/` | Tiny Flask API distributing host-specific rule overrides |
+</details>
+
+---
+
+## 🌐 Rule-distribution architecture
 
 ```
-| File name | Description |
-|-|-|
-|`docker-entrypoint.sh` | entrypoint script |
-|`Dockerfile` | dockerfile |
-|`etc/nginx/templates/nginx.conf.template` | nginx.conf template file |
-|`etc/nginx/templates/conf.d/default.conf.template` | nginx default.conf template file |
-|`etc/supervisord.conf` | supervisord configuration |
-|`etc/supervisor.d/start_crond.conf` | supervisor configuration for crond |
-|`etc/supervisor.d/start_nginx.conf` | supervisor configuration for nginx |
-|`etc/supervisor.d/start_php-fpm.conf` | supervisor configuration for php-fpm |
-|`html/403_error.php` | custom error page |
-|`sync-crs-rules.sh` | script to sync crs rules from a github repo |
+       🗄️  Rule server (Flask)
+         └ /src/server/app.py
+                ▲
+      (1) /request?hostname=foo
+      (2) /response?hostname=foo
+                │
+┌───────────────┴────────────────┐   cron: * * * * *
+│ 📦  ModSecurity proxy          │──────────────────►  downloads rules
+│     (runs sync-crs-rules.sh)   │                  ►  pulls Fail2ban IPs
+└────────────────────────────────┘                  ►  reloads Nginx on diff
+```
 
-## CRS Rules Sync
+* `rules/` tree = one folder **per host** plus a universal **`default/`**.  
+* `/report_error` receives `nginx -t` output if a bad rule blocks reload.  
+* `/get_all_rules` returns a tarball backup of the whole tree.
 
-The script `/sync-crs-rules.sh` will sync the CRS rules from a CRS_RULES_SERVER.
+<details>
+<summary>Sync-script reload logic 🔄</summary>
 
-| Name | Description|
-|-|-|
-| `HOSTNAME` | Hostname that will be used to query CRS_RULES_SERVER |
-| `CRS_RULES_SYNC` | enable/disable the sync of the CRS rules from a github repo |
-| `CRS_RULES_SERVER` | server that serves the modesec rules (example server given in src/server |
-| `CRS_RULES_BRANCH` | branch name to sync the CRS rules from. default: `main`|
+1. Export Fail2ban IPs → `/etc/modsecurity.d/banned_ips.txt`  
+2. `curl` the two rule files (`/request`, `/response`) for the host  
+3. `md5sum` compare with live copies  
+4. If bans **or** either rule changed → `nginx -t && nginx -s reload`
+</details>
 
-The CRS file are in `rules` directory and mounted in the container at `/opt/owasp-crs/rules` by `docker-compose`
+---
 
-## Environment variables
+## ⚙️ Environment variables (`.env`)
 
-### Modsecurity, Core Rules set (CRS) and NGINX
-You can set all the environment variables from the [official image](https://github.com/coreruleset/modsecurity-crs-docker)
+| Key | Purpose (see **.env.sample** for defaults) |
+|-----|--------------------------------------------|
+| **Core** ||
+| `HOSTNAME` | Sent to the rule server; drives per-host overrides. |
+| `BACKEND_PORT443` / `BACKEND_PORT80` | Upstream HTTPS / HTTP targets. |
+| `NGINX_ALWAYS_TLS_REDIRECT` | `on` → force HTTP→HTTPS 301. |
+| `CAPTCHA_ON` | `1` enables the *captcha_verified* cookie flow. |
+| **CRS / ModSecurity** ||
+| `CRS_RULES_SYNC` + `CRS_RULES_SERVER` | Turn on auto-sync and point to the rule API. |
+| `BLOCKING_PARANOIA` | CRS paranoia level **1–4**. |
+| `MODSEC_REQ_BODY_LIMIT` | Max request-body size before 413. |
+| **Fail2ban** ||
+| `FAIL2BAN_MAXRETRY` / `FAIL2BAN_FINDTIME` / `FAIL2BAN_BANTIME` | Tune ban policy. |
+| **Logging** ||
+| `SYSLOG_HOST` / `SYSLOG_PORT` | Forward Nginx & ModSecurity logs. |
+| `OVERRIDE_UPSTREAM_CSP` / `CSP` | Replace or set Content-Security-Policy. |
 
-## Supervisor
+---
 
-The default configuration for supervisor is in `etc/supervisord.conf`.
-The plugin `supervisor-stdout` is installed to redirect the output of the processes to stdout.
+## 🛠️ Host-specific CRS overrides
 
-### Add new service to supervisor
+The syncer looks for a folder named exactly like `$HOSTNAME` under `src/server/rules/`  
+(or downloads it from `$CRS_RULES_SERVER`).
 
-The supervisor load the configuration files from the folder `etc/supervisor.d`.
-Configuration example file for a new service:
+*Example – override for `mydemo.local`:*
 
 ```
-[program:nginx]
-command=<command to run> # if possible use --no-daemon mode.
-stdout_events_enabled = true
-stderr_events_enabled = true
-autostart=true
+src/server/rules/mydemo.local/
+└── REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
 ```
-Copy to `etc/supervisor.d/start_<service>.conf` to allow supervisor to load the configuration.
 
-**References:**
+The file lands inside the container at  
+`/opt/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf` and is active after the next cron tick (≈ 60 s).
 
-* [modsecurity-crs-docker](https://github.com/coreruleset/modsecurity-crs-docker)
+### Disable an existing CRS rule by ID
+
+```apache
+# Disable CRS rule 920350 (numeric Host header)
+SecRuleRemoveById 920350
+```
+
+### Add a custom rule
+
+```apache
+# Block /admin unless from the office subnet
+SecRule REQUEST_URI "@beginsWith /admin" \
+      "id:600001,phase:1,deny,log,status:403,msg:'/admin forbidden',chain"
+SecRule REMOTE_ADDR "!@ipMatch 192.168.0.0/24"
+```
+
+*Use IDs outside CRS ranges, e.g. **6xxxxx** or **9xxxxx**.*
+
+---
+
+## 🔧 Debug tips
+
+| Task | Command |
+|------|---------|
+| Open shell | `docker exec -it modsec-ng-modsec sh` |
+| Trigger sync now | `docker exec -it modsec-ng-modsec sh /sync-crs-rules.sh $HOSTNAME $CRS_RULES_SERVER` |
+| View active rule file | `cat /opt/owasp-crs/rules/REQUEST-900-…` |
+| Fail2ban status | `fail2ban-client status modsecurity` |
+| Unban an IP | `fail2ban-client set modsecurity unbanip 1.2.3.4` |
+| ModSecurity audit | `grep '"messages"' /var/log/nginx/error.log` |
+
+---
+
+## 📡 Rsyslog probe
+
+```bash
+sudo socat -u UDP-RECVFROM:514,reuseaddr,fork SYSTEM:'cat'
+```
+
+Confirms your log collector receives events.
+
+---
+
+## ➕ Extending the container
+
+* **Add a service** – drop `start_<name>.conf` in `src/etc/supervisor.d/`.  
+* **Custom SSL certs** – mount over `/etc/nginx/conf.d/ssl`.  
+* **Extra ModSecurity configs** – mount into `/etc/modsecurity.d/` and reload.

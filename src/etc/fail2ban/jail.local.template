@@ -1,0 +1,10 @@
+[modsecurity]
+enabled  = true
+port     = http,https
+filter   = modsecurity
+logpath  = /var/log/nginx/error_log.log
+maxretry = ${FAIL2BAN_MAXRETRY}
+bantime  = ${FAIL2BAN_BANTIME}
+findtime   = ${FAIL2BAN_FINDTIME}
+# action   = iptables[name=ModSec, port="http,https", protocol=tcp]
+banaction  = iptables-multiport
