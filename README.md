@@ -165,12 +165,3 @@ Confirms your log collector receives events.
 * **Add a service** – drop `start_<name>.conf` in `src/etc/supervisor.d/`.  
 * **Custom SSL certs** – mount over `/etc/nginx/conf.d/ssl`.  
 * **Extra ModSecurity configs** – mount into `/etc/modsecurity.d/` and reload.
-
----
-
-## 📜 License & Changelog
-
-* See **LICENSE** for terms.  
-* See **CHANGELOG.md** for release notes.
-
-Happy blocking 🔒
