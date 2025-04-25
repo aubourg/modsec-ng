@@ -15,7 +15,7 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY server/rules/default/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf /opt/owasp-crs/rules
 COPY server/rules/default/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf /opt/owasp-crs/rules
 
-RUN chmod 600 /etc/nginx/conf/*
+# RUN chmod 600 /etc/nginx/conf/*
 
 # ENV OVERRIDE_UPSTREAM_CSP="true"
 # ENV MODSEC_AUDIT_ENGINE='on'
