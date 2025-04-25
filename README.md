@@ -142,7 +142,8 @@ SecRule REMOTE_ADDR "!@ipMatch 192.168.0.0/24"
 
 | Task | Command |
 |------|---------|
-| Trigger sync now | `docker exec -it modsec sh /sync-crs-rules.sh $HOSTNAME $CRS_RULES_SERVER` |
+| Open shell | `docker exec -it modsec-ng-modsec sh` |
+| Trigger sync now | `docker exec -it modsec-ng-modsec sh /sync-crs-rules.sh $HOSTNAME $CRS_RULES_SERVER` |
 | View active rule file | `cat /opt/owasp-crs/rules/REQUEST-900-…` |
 | Fail2ban status | `fail2ban-client status modsecurity` |
 | Unban an IP | `fail2ban-client set modsecurity unbanip 1.2.3.4` |
