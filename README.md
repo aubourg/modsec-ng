@@ -119,3 +119,21 @@ To enable rsyslog please configure `SYSLOG_HOST` and `SYSLOG_PORT` `docker-compo
 ```
 sudo socat -u UDP-RECVFROM:514,reuseaddr,fork SYSTEM:'cat;echo'
 ```
+
+# Fail2ban
+
+## How to debug
+
+Open a shell on the modsecurity container :
+
+```
+docker exec -it modsec-ng-modsec-1 sh
+```
+
+Usefull commands :
+
+```
+fail2ban-client status modsecurity # se actual status
+fail2ban-client set modsecurity unbanip 192.168.10.123 # unban ip
+cat /etc/modsecurity.d/banned_ips.txt # see banned ip file ( you can edit it if needed )
+```

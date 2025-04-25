@@ -58,6 +58,11 @@ envsubst '${SYSLOG_HOST} ${SYSLOG_PORT} ${SYSLOG_PROTO}' \
   < /etc/rsyslog.d/30-forward.conf.tpl \
   > /etc/rsyslog.d/30-forward.conf
 
+envsubst '${FAIL2BAN_BANTIME} ${FAIL2BAN_MAXRETRY} ${FAIL2BAN_FINDTIME}' \
+  < /etc/fail2ban/jail.local.template \
+  > /etc/fail2ban/jail.local
+
+
 
 
 # Start supervisord
